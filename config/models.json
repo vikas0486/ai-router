@@ -1,0 +1,5 @@
+{
+  "primary": "gemini",
+  "fallback": "ollama",
+  "premium": "openai"
+}
