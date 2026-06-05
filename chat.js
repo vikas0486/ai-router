@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-#!/usr/bin/env node
 import "dotenv/config";
 import readline from "readline";
 import fs from "fs";
