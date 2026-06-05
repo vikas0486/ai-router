@@ -255,3 +255,35 @@ An unexpected critical error occurred:[object Object]
 [2026-06-05T21:32:43.572Z] copilot Success
 [2026-06-05T21:32:53.414Z] copilot Success
 [2026-06-05T21:33:41.795Z] Trying copilot
+[2026-06-05T21:34:26.374Z] copilot Success
+[2026-06-05T21:35:08.325Z] Trying copilot
+[2026-06-05T21:35:50.111Z] Trying copilot
+[2026-06-05T21:36:05.272Z] copilot Success
+[2026-06-05T21:37:18.240Z] copilot Success
+[2026-06-05T21:39:04.542Z] Trying copilot
+[2026-06-05T21:39:19.198Z] copilot Success
+[2026-06-05T21:41:17.407Z] Trying copilot
+[2026-06-05T21:41:59.022Z] copilot Success
+[2026-06-05T21:42:21.020Z] Trying copilot
+[2026-06-05T21:43:13.918Z] copilot Success
+[2026-06-05T21:44:18.346Z] Trying copilot
+[2026-06-05T21:44:48.100Z] copilot Success
+[2026-06-05T21:47:54.989Z] Trying copilot
+[2026-06-05T21:49:39.575Z] copilot Success
+[2026-06-05T21:51:49.786Z] Trying copilot
+[2026-06-05T21:52:09.940Z] copilot Success
+[2026-06-05T21:54:16.905Z] Trying copilot
+[2026-06-05T21:56:22.854Z] copilot Success
+[2026-06-05T21:57:10.065Z] Trying copilot
+[2026-06-05T21:57:21.821Z] copilot Success
+[2026-06-05T21:59:05.588Z] Trying copilot
+[2026-06-05T21:59:17.158Z] copilot Success
+[2026-06-05T22:00:31.679Z] Forced model: groq
+[2026-06-05T22:01:33.651Z] Forced model: groq
+[2026-06-05T22:02:53.107Z] Forced model: groq
+[2026-06-05T22:04:29.474Z] Forced model: groq
+[2026-06-05T22:05:40.955Z] Forced model: groq
+[2026-06-05T22:06:51.379Z] Forced model: gemini
+[2026-06-05T22:07:47.955Z] Forced model: ollama
+[2026-06-05T22:12:56.543Z] Forced model: openai
+[2026-06-05T22:15:32.149Z] Forced model: ollama

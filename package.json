@@ -3,9 +3,8 @@
   "version": "1.0.1",
   "type": "module",
   "bin": {
-    "ai-router": "cli.js",
-    "ai-chat": "chat.js",
-    "forge": "cli.js"
+    "forge-cli": "cli.js",
+    "forge": "chat.js"
   },
   "dependencies": {
     "axios": "^1.17.0",

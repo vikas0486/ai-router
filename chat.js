@@ -8,6 +8,7 @@ import chalk from "chalk";
 import ora from "ora";
 import { routeRequest } from "./router/engine.js";
 import { validateCredentials } from "./config/credentials.js";
+import { providers } from "./router/providers.config.js";
 
 const CHAT_HISTORY_FILE = path.join(".", "chat-history.json");
 const MAX_HISTORY_LENGTH = 50;
@@ -82,17 +83,57 @@ class InteractiveChatApp {
         "Type your message and press Enter. Commands available:"
       )
     );
+    console.log(chalk.yellow("  /help") + chalk.gray(" - Show available commands"));
     console.log(chalk.yellow("  /clear") + chalk.gray(" - Clear chat history"));
     console.log(
       chalk.yellow("  /history") + chalk.gray(" - Show previous messages")
     );
-    console.log(
-      chalk.yellow("  /model") + chalk.gray(
-        " <name> - Switch to specific model (optional)"
-      )
-    );
+    console.log(chalk.yellow("  /model list") + chalk.gray(" - Show available models"));
+    console.log(chalk.yellow("  /model <name>") + chalk.gray(" - Switch to specific model"));
     console.log(chalk.yellow("  /image") + chalk.gray(" <path> - Attach an image file"));
     console.log(chalk.yellow("  /exit") + chalk.gray(" - Exit the chat"));
+    console.log();
+  }
+
+  displayHelp() {
+    console.log();
+    console.log(
+      chalk.cyan.bold(
+        "╔════════════════════════════════════════════════════════╗"
+      )
+    );
+    console.log(
+      chalk.cyan.bold(
+        "║                 📚  Available Commands                 ║"
+      )
+    );
+    console.log(
+      chalk.cyan.bold(
+        "╚════════════════════════════════════════════════════════╝"
+      )
+    );
+    console.log();
+    console.log(chalk.yellow("  /help") + chalk.gray(" - Show this help message"));
+    console.log(chalk.yellow("  /clear") + chalk.gray(" - Clear all chat history"));
+    console.log(chalk.yellow("  /history") + chalk.gray(" - Display recent messages"));
+    console.log(
+      chalk.yellow("  /model list") + chalk.gray(" - Show available models in priority order")
+    );
+    console.log(
+      chalk.yellow("  /model <name>") + chalk.gray(" - Switch LLM provider (e.g., groq, openai)")
+    );
+    console.log(
+      chalk.yellow("  /model auto") + chalk.gray(" - Enable automatic model routing")
+    );
+    console.log(
+      chalk.yellow("  /image <path>") + chalk.gray(" - Attach an image for analysis")
+    );
+    console.log(chalk.yellow("  /exit") + chalk.gray(" - Exit the chat application"));
+    console.log();
+    console.log(chalk.gray("Examples:"));
+    console.log(chalk.gray("  > /model groq"));
+    console.log(chalk.gray("  > /model auto"));
+    console.log(chalk.gray("  > /image ./screenshot.png"));
     console.log();
   }
 
@@ -118,6 +159,10 @@ class InteractiveChatApp {
     const cmd = parts[0].toLowerCase();
 
     switch (cmd) {
+      case "/help":
+        this.displayHelp();
+        break;
+
       case "/clear":
         this.history = [];
         this.saveHistory();
@@ -131,6 +176,29 @@ class InteractiveChatApp {
       case "/model":
         if (parts.length > 1) {
           const modelName = parts[1].toLowerCase();
+          
+          // Handle /model list
+          if (modelName === "list") {
+            console.log();
+            console.log(chalk.cyan.bold("Available Models (in priority order):"));
+            console.log();
+            const sortedProviders = [...providers].sort((a, b) => a.priority - b.priority);
+            sortedProviders.forEach((provider, index) => {
+              const status = provider.enabled ? chalk.green("✓") : chalk.red("✗");
+              console.log(`  ${status} ${chalk.yellow(provider.name.padEnd(12))} - Priority: ${provider.priority}`);
+            });
+            console.log();
+            break;
+          }
+          
+          // Prevent "all" from being used as a model name
+          if (modelName === "all") {
+            console.log(
+              chalk.red("✗ Cannot switch to 'all'. Use '/model list' to see available models or '/model auto' for automatic routing.")
+            );
+            break;
+          }
+          
           if (modelName === "auto") {
             this.preferredModel = null;
             console.log(

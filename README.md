@@ -1,8 +1,8 @@
 # 🚀 AI Router v1.1 — Multi-LLM Intelligent Routing System
 
-A production-style **Multi-LLM routing engine** built in Node.js that dynamically selects and fails over between multiple AI providers like Gemini, Groq, Ollama, GitHub Copilot, and OpenAI.
+A production-style **Multi-LLM routing engine** built in Node.js that dynamically selects and fails over between multiple AI providers (Gemini, Groq, Ollama, GitHub Copilot, OpenAI).
 
-This project demonstrates how modern AI applications can be designed as **resilient, cost-aware, and provider-agnostic systems** instead of relying on a single LLM.
+This project demonstrates how to build **resilient, cost-aware, provider-agnostic AI systems** with automatic failover, health checks, and unified credential management.
 
 ---
 
@@ -162,25 +162,35 @@ For detailed documentation, see [CHAT_GUIDE.md](./CHAT_GUIDE.md) and [CHAT_ARCHI
 ```
 ai-router/
 ├── cli.js                  # CLI Entry point (single prompt)
-├── chat.js                 # Interactive Chat CLI ✨ NEW
+├── chat.js                 # Interactive Chat CLI with session management
 ├── CHAT_GUIDE.md           # Chat user guide
 ├── CHAT_ARCHITECTURE.md    # Chat design documentation
+├── CHAT_IMPLEMENTATION_SUMMARY.md  # Implementation notes
+├── SETUP.md                # Development setup guide
 ├── config/
 │   ├── credentials.js      # Credential loader & validator
 │   └── models.json         # Model configurations
 ├── logs/                   # Diagnostic logs
-├── providers/              # Provider implementations
-│   ├── gemini.js
-│   ├── groq.js
-│   ├── ollama.js
-│   ├── copilot.js
-│   └── openai.js
-├── router/                 # Core routing logic
-│   ├── engine.js           # Fallback & routing engine
+├── memory/                 # Session memory & state
+│   ├── memory.js           # Memory management
+│   └── session.json        # Persisted session state
+├── providers/              # LLM provider implementations
+│   ├── gemini.js           # Google Gemini API
+│   ├── groq.js             # Groq API (fast inference)
+│   ├── ollama.js           # Ollama local execution
+│   ├── copilot.js          # GitHub Copilot CLI
+│   └── openai.js           # OpenAI API (ready)
+├── router/                 # Core routing & failover logic
+│   ├── engine.js           # Routing engine & automatic failover
 │   ├── logger.js           # Diagnostic logger
-│   ├── provider.registry.js
-│   └── providers.config.js
-└── README.md
+│   ├── provider.registry.js # Provider registration system
+│   └── providers.config.js  # Provider priority & settings
+├── skills/                 # Skills & technique documentation
+│   ├── memory.md           # Project memory & architecture
+│   └── SKILL.md            # Skill reference & patterns
+├── tests/                  # Test suite
+├── package.json            # Dependencies
+└── README.md               # This file
 ```
 
 ---
