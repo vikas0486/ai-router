@@ -1,22 +1,27 @@
 export const providers = [
   {
-    name: "gemini",
+    name: "copilot",
     enabled: true,
     priority: 1
   },
   {
-    name: "groq",
+    name: "gemini",
     enabled: true,
     priority: 2
   },
   {
-    name: "ollama",
+    name: "groq",
     enabled: true,
     priority: 3
   },
   {
     name: "openai",
-    enabled: false,
+    enabled: true,
     priority: 4
+  },
+  {
+    name: "ollama",
+    enabled: true,
+    priority: 5
   }
 ];

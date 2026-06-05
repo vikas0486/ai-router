@@ -1,0 +1,237 @@
+[2026-06-05T19:47:58.769Z] Forced model: groq
+[2026-06-05T19:48:09.726Z] Forced model: ollama
+[2026-06-05T19:49:12.755Z] Forced model: copilot
+[2026-06-05T19:55:13.538Z] Trying gemini
+[2026-06-05T19:55:23.771Z] gemini Success
+[2026-06-05T20:02:14.738Z] Trying gemini
+[2026-06-05T20:02:14.739Z] gemini Success
+[2026-06-05T20:02:14.741Z] Trying gemini
+[2026-06-05T20:02:14.742Z] gemini Failed: gemini failed
+[2026-06-05T20:02:14.742Z] Trying groq
+[2026-06-05T20:02:14.742Z] groq Success
+[2026-06-05T20:02:14.742Z] Trying gemini
+[2026-06-05T20:02:14.742Z] gemini Failed: gemini failed
+[2026-06-05T20:02:14.742Z] Trying groq
+[2026-06-05T20:02:14.743Z] groq Failed: groq failed
+[2026-06-05T20:02:14.743Z] Trying copilot
+[2026-06-05T20:02:14.743Z] copilot Failed: copilot failed
+[2026-06-05T20:02:14.743Z] Trying openai
+[2026-06-05T20:02:14.743Z] openai Failed: openai failed
+[2026-06-05T20:02:14.743Z] Trying ollama
+[2026-06-05T20:02:14.743Z] ollama Failed: ollama failed
+[2026-06-05T20:02:14.743Z] All providers failed
+[2026-06-05T20:04:18.353Z] Forced model: copilot
+[2026-06-05T20:09:04.017Z] Forced model: copilot
+[2026-06-05T20:10:58.791Z] Forced model: copilot
+[2026-06-05T20:14:33.500Z] Forced model: copilot
+[2026-06-05T20:15:19.101Z] Trying gemini
+[2026-06-05T20:15:30.951Z] gemini Success
+[2026-06-05T20:16:36.751Z] Trying gemini
+[2026-06-05T20:16:50.937Z] gemini Success
+[2026-06-05T20:19:31.418Z] Trying gemini
+[2026-06-05T20:19:46.201Z] gemini Success
+[2026-06-05T20:21:12.976Z] Forced model: groq
+[2026-06-05T20:21:43.058Z] Forced model: copilot
+[2026-06-05T20:22:12.786Z] Forced model: ollama
+[2026-06-05T20:26:59.679Z] Trying gemini
+[2026-06-05T20:27:58.786Z] Forced model: groq
+[2026-06-05T20:30:14.849Z] Forced model: groq
+[2026-06-05T20:31:11.189Z] Forced model: groq
+[2026-06-05T20:32:30.998Z] Forced model: groq
+[2026-06-05T20:33:39.014Z] gemini Failed: Command failed: gemini -p "vikash@Vikashs-MacBook-Pro ai-router % ollama list"
+Error executing tool run_shell_command: Tool "run_shell_command" not found. Did you mean one of: "update_topic", "grep_search", "invoke_agent"?
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 0s.. Retrying after 5808ms...
+[LocalAgentExecutor] Blocked call: Unauthorized tool call: 'run_shell_command' is not available to this agent.
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 6s.. Retrying after 6546ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 6s.. Retrying after 7734ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 6446ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 6561ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5712ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 6s.. Retrying after 7619ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 6464ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5636ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 6s.. Retrying after 6264ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 6s.. Retrying after 6734ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 6s.. Retrying after 6630ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5953ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 3s.. Retrying after 5812ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 0s.. Retrying after 5411ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 1s.. Retrying after 5955ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 1s.. Retrying after 5920ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 1s.. Retrying after 5785ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 6261ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 5589ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 5s.. Retrying after 6469ms...
+Error executing tool write_file: Tool "write_file" not found. Did you mean one of: "read_file", "update_topic", "grep_search"?
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 1s.. Retrying after 5242ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 2s.. Retrying after 5488ms...
+[LocalAgentExecutor] Blocked call: Unauthorized tool call: 'run_shell_command' is not available to this agent.
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 2s.. Retrying after 5297ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 6s.. Retrying after 6663ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 5757ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 3s.. Retrying after 5436ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 3s.. Retrying after 5664ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 2s.. Retrying after 5595ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 2s.. Retrying after 5221ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 2s.. Retrying after 5410ms...
+[LocalAgentExecutor] Blocked call: Unauthorized tool call: 'write_file' is not available to this agent.
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 1s.. Retrying after 5763ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 0s.. Retrying after 5549ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 0s.. Retrying after 5903ms...
+Attempt 1 failed: You have exhausted your capacity on this model. Your quota will reset after 4s.. Retrying after 5477ms...
+Subagent 'generalist' failed: TerminalQuotaError: You have exhausted your capacity on this model. Your quota will reset after 21h8m27s.
+    at classifyGoogleError (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:304211:18)
+    at retryWithBackoff (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:304871:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async GeminiChat.makeApiCallAndProcessStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328260:28)
+    at async GeminiChat.streamWithRetries (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328078:29)
+    at async _LocalAgentExecutor.callModel (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:344901:22)
+    at async _LocalAgentExecutor.executeTurn (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:344470:43)
+    at async _LocalAgentExecutor.runInternal (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:344682:30)
+    at async LocalSubagentInvocation.execute (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:345519:22)
+    at async file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:349017:23 {
+  cause: {
+    code: 429,
+    message: 'You have exhausted your capacity on this model. Your quota will reset after 21h8m27s.',
+    details: [ [Object], [Object] ]
+  },
+  retryDelayMs: 76107861.73894101,
+  reason: 'QUOTA_EXHAUSTED'
+}
+Error when talking to Gemini API Full report available at: /var/folders/54/8z89prd973sb975_x33y35t80000gn/T/gemini-client-error-Turn.run-sendMessageStream-2026-06-05T20-33-38-972Z.json TerminalQuotaError: You have exhausted your capacity on this model. Your quota will reset after 21h8m27s.
+    at classifyGoogleError (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:304211:18)
+    at retryWithBackoff (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:304871:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async GeminiChat.makeApiCallAndProcessStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328260:28)
+    at async GeminiChat.streamWithRetries (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328078:29)
+    at async Turn.run (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328824:24)
+    at async GeminiClient.processTurn (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:342314:22)
+    at async GeminiClient.sendMessageStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:342411:14)
+    at async file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-V3OTI3NY.js:10882:26
+    at async main (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-V3OTI3NY.js:16290:5) {
+  cause: {
+    code: 429,
+    message: 'You have exhausted your capacity on this model. Your quota will reset after 21h8m27s.',
+    details: [ [Object], [Object] ]
+  },
+  retryDelayMs: 76107078.980797,
+  reason: 'QUOTA_EXHAUSTED'
+}
+An unexpected critical error occurred:[object Object]
+
+[2026-06-05T20:33:39.016Z] Trying groq
+[2026-06-05T20:33:39.783Z] groq Success
+[2026-06-05T20:33:55.892Z] Forced model: groq
+[2026-06-05T20:35:42.876Z] Forced model: groq
+[2026-06-05T20:37:35.145Z] Forced model: groq
+[2026-06-05T20:38:11.110Z] Forced model: groq
+[2026-06-05T20:38:54.811Z] Forced model: groq
+[2026-06-05T20:39:39.548Z] Forced model: groq
+[2026-06-05T20:40:25.020Z] Forced model: groq
+[2026-06-05T20:41:01.996Z] Forced model: groq
+[2026-06-05T20:41:51.064Z] Forced model: groq
+[2026-06-05T20:42:20.206Z] Forced model: groq
+[2026-06-05T20:44:27.710Z] Forced model: auto
+[2026-06-05T20:45:10.306Z] Forced model: copilot
+[2026-06-05T20:45:34.314Z] Trying gemini
+[2026-06-05T20:45:46.145Z] gemini Failed: Command failed: gemini -p "hello"
+Error when talking to Gemini API Full report available at: /var/folders/54/8z89prd973sb975_x33y35t80000gn/T/gemini-client-error-Turn.run-sendMessageStream-2026-06-05T20-45-46-109Z.json TerminalQuotaError: You have exhausted your capacity on this model. Your quota will reset after 20h56m19s.
+    at classifyGoogleError (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:304211:18)
+    at retryWithBackoff (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:304871:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async GeminiChat.makeApiCallAndProcessStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328260:28)
+    at async GeminiChat.streamWithRetries (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328078:29)
+    at async Turn.run (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328824:24)
+    at async GeminiClient.processTurn (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:342314:22)
+    at async GeminiClient.sendMessageStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:342411:14)
+    at async file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-V3OTI3NY.js:10882:26
+    at async main (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-V3OTI3NY.js:16290:5) {
+  cause: {
+    code: 429,
+    message: 'You have exhausted your capacity on this model. Your quota will reset after 20h56m19s.',
+    details: [ [Object], [Object] ]
+  },
+  retryDelayMs: 75379959.838706,
+  reason: 'QUOTA_EXHAUSTED'
+}
+An unexpected critical error occurred:[object Object]
+
+[2026-06-05T20:45:46.145Z] Trying groq
+[2026-06-05T20:45:46.389Z] groq Success
+[2026-06-05T20:46:38.389Z] Trying gemini
+[2026-06-05T20:46:48.220Z] gemini Failed: Command failed: gemini -p "list me all models you have"
+Error when talking to Gemini API Full report available at: /var/folders/54/8z89prd973sb975_x33y35t80000gn/T/gemini-client-error-Turn.run-sendMessageStream-2026-06-05T20-46-48-159Z.json TerminalQuotaError: You have exhausted your capacity on this model. Your quota will reset after 20h55m17s.
+    at classifyGoogleError (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:304211:18)
+    at retryWithBackoff (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:304871:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async GeminiChat.makeApiCallAndProcessStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328260:28)
+    at async GeminiChat.streamWithRetries (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328078:29)
+    at async Turn.run (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328824:24)
+    at async GeminiClient.processTurn (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:342314:22)
+    at async GeminiClient.sendMessageStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:342411:14)
+    at async file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-V3OTI3NY.js:10882:26
+    at async main (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-V3OTI3NY.js:16290:5) {
+  cause: {
+    code: 429,
+    message: 'You have exhausted your capacity on this model. Your quota will reset after 20h55m17s.',
+    details: [ [Object], [Object] ]
+  },
+  retryDelayMs: 75317909.01084399,
+  reason: 'QUOTA_EXHAUSTED'
+}
+An unexpected critical error occurred:[object Object]
+
+[2026-06-05T20:46:48.220Z] Trying groq
+[2026-06-05T20:46:50.600Z] groq Success
+[2026-06-05T20:48:06.410Z] Trying gemini
+[2026-06-05T20:48:16.975Z] gemini Failed: Command failed: gemini -p "why my fallback is not working correctly?"
+Error when talking to Gemini API Full report available at: /var/folders/54/8z89prd973sb975_x33y35t80000gn/T/gemini-client-error-Turn.run-sendMessageStream-2026-06-05T20-48-16-916Z.json TerminalQuotaError: You have exhausted your capacity on this model. Your quota will reset after 20h53m49s.
+    at classifyGoogleError (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:304211:18)
+    at retryWithBackoff (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:304871:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async GeminiChat.makeApiCallAndProcessStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328260:28)
+    at async GeminiChat.streamWithRetries (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328078:29)
+    at async Turn.run (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:328824:24)
+    at async GeminiClient.processTurn (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:342314:22)
+    at async GeminiClient.sendMessageStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-FFUBQCSE.js:342411:14)
+    at async file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-V3OTI3NY.js:10882:26
+    at async main (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-V3OTI3NY.js:16290:5) {
+  cause: {
+    code: 429,
+    message: 'You have exhausted your capacity on this model. Your quota will reset after 20h53m49s.',
+    details: [ [Object], [Object] ]
+  },
+  retryDelayMs: 75229148.372672,
+  reason: 'QUOTA_EXHAUSTED'
+}
+An unexpected critical error occurred:[object Object]
+
+[2026-06-05T20:48:16.975Z] Trying groq
+[2026-06-05T20:48:17.558Z] groq Success
+[2026-06-05T20:49:05.541Z] Forced model: copilot
+[2026-06-05T20:53:43.148Z] Forced model: copilot
+[2026-06-05T20:55:54.767Z] Forced model: copilot
+[2026-06-05T20:56:18.631Z] Forced model: copilot
+[2026-06-05T20:58:18.503Z] Forced model: copilot
+[2026-06-05T21:00:06.809Z] Forced model: auto
+[2026-06-05T21:00:28.489Z] Forced model: copilot
+[2026-06-05T21:01:09.001Z] Trying copilot
+[2026-06-05T21:01:44.942Z] copilot Success
+[2026-06-05T21:03:40.528Z] Forced model: copilot
+[2026-06-05T21:06:10.840Z] Forced model: auto
+[2026-06-05T21:06:44.624Z] Forced model: copilot
+[2026-06-05T21:07:11.486Z] Trying copilot
+[2026-06-05T21:07:26.197Z] copilot Success
+[2026-06-05T21:08:29.277Z] Trying copilot
+[2026-06-05T21:09:00.243Z] copilot Success
+[2026-06-05T21:09:45.089Z] Trying copilot
+[2026-06-05T21:09:59.789Z] copilot Success
+[2026-06-05T21:10:40.015Z] Trying copilot
+[2026-06-05T21:14:59.198Z] copilot Success
+[2026-06-05T21:15:50.878Z] Trying copilot
+[2026-06-05T21:16:15.832Z] copilot Success
+[2026-06-05T21:17:33.991Z] Trying copilot
+[2026-06-05T21:17:57.473Z] copilot Success
+[2026-06-05T21:19:00.227Z] Trying copilot
+[2026-06-05T21:19:44.431Z] copilot Success
+[2026-06-05T21:21:52.316Z] Trying copilot

@@ -1,11 +1,42 @@
 import { providers } from "./providers.config.js";
 import { providerRegistry } from "./provider.registry.js";
+import { checkGeminiHealth } from "../providers/gemini.js";
+import { checkGroqHealth } from "../providers/groq.js";
+import { checkOllamaHealth } from "../providers/ollama.js";
+import { checkCopilotHealth } from "../providers/copilot.js";
+import { checkOpenaiHealth } from "../providers/openai.js";
+import { log } from "./logger.js";
 
-export async function routeRequest(prompt, preferred = null) {
+const healthChecks = {
+  gemini: checkGeminiHealth,
+  groq: checkGroqHealth,
+  ollama: checkOllamaHealth,
+  copilot: checkCopilotHealth,
+  openai: checkOpenaiHealth
+};
+
+export async function performHealthCheck() {
+  const results = {};
+  for (const p of providers) {
+    if (healthChecks[p.name]) {
+      try {
+        results[p.name] = await healthChecks[p.name]();
+      } catch (err) {
+        results[p.name] = { ok: false, reason: err.message };
+      }
+    } else {
+      results[p.name] = { ok: false, reason: "No health check implemented" };
+    }
+  }
+  return results;
+}
+
+export async function routeRequest(prompt, preferred = null, image = null) {
 
   // 1. Forced model
   if (preferred) {
-    return runProvider(preferred, prompt);
+    log(`Forced model: ${preferred}`);
+    return runProvider(preferred, prompt, image);
   }
 
   // 2. Sort enabled providers
@@ -18,25 +49,28 @@ export async function routeRequest(prompt, preferred = null) {
     const fn = providerRegistry[p.name];
 
     if (!fn) {
-      console.log(`[Router] Missing provider: ${p.name}`);
+      log(`Missing provider implementation: ${p.name}`);
       continue;
     }
 
     try {
-      console.log(`[Router] Trying ${p.name}`);
-      return await fn(prompt);
+      log(`Trying ${p.name}`);
+      const res = await fn(prompt, image);
+      log(`${p.name} Success`);
+      return res;
     } catch (err) {
-      console.log(`[Router] ${p.name} failed → fallback`);
+      log(`${p.name} Failed: ${err.message}`);
     }
   }
 
+  log("All providers failed");
   throw new Error("All providers failed");
 }
 
 // helper
-async function runProvider(name, prompt) {
+async function runProvider(name, prompt, image) {
   const fn = providerRegistry[name];
   if (!fn) throw new Error("Unknown provider: " + name);
 
-  return fn(prompt);
+  return fn(prompt, image);
 }

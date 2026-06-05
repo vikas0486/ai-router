@@ -1,6 +1,6 @@
-# 🚀 AI Router v1 — Multi-LLM Intelligent Routing System
+# 🚀 AI Router v1.1 — Multi-LLM Intelligent Routing System
 
-A production-style **Multi-LLM routing engine** built in Node.js that dynamically selects and fails over between multiple AI providers like Gemini, Groq, Ollama, and OpenAI.
+A production-style **Multi-LLM routing engine** built in Node.js that dynamically selects and fails over between multiple AI providers like Gemini, Groq, Ollama, GitHub Copilot, and OpenAI.
 
 This project demonstrates how modern AI applications can be designed as **resilient, cost-aware, and provider-agnostic systems** instead of relying on a single LLM.
 
@@ -19,134 +19,141 @@ This project solves these issues using a **routing-based AI architecture**.
 
 ---
 
-## ⚙️ Solution — AI Router
-
-Instead of calling one model directly:
-
-```
-
-User → Single LLM (fragile ❌)
-
-```
-
-We introduce a routing layer:
-
-```
-
-User → AI Router → Best Available LLM → Response
-
-```
-
----
-
 ## 🏗️ Architecture
 
+```mermaid
+graph TD
+    User([User]) --> CLI[CLI Layer]
+    CLI --> Router{AI Router Engine}
+    
+    subgraph Providers
+    Router --> Gemini[Gemini CLI]
+    Router --> Groq[Groq API]
+    Router --> Ollama[Ollama Local]
+    Router --> Copilot[Copilot CLI]
+    Router --> OpenAI[OpenAI API]
+    end
+    
+    Gemini -.-> Fallback[Automatic Fallback]
+    Groq -.-> Fallback
+    Ollama -.-> Fallback
+    Copilot -.-> Fallback
+    
+    Fallback --> Response([Response Returned])
 ```
-
-```
-        CLI / API Layer
-               │
-               ▼
-    ┌─────────────────────┐
-    │   AI Router Engine  │
-    └─────────────────────┘
-      │        │        │
-      ▼        ▼        ▼
-  Gemini     Groq     Ollama
-    │        │          │
-    └────────┴──────────┘
-             ▼
-      Response Returned
-```
-
-````
 
 ---
 
 ## 🔥 Key Features
 
-✔ Multi-LLM support (Gemini, Groq, Ollama, OpenAI-ready)  
-✔ Automatic fallback system  
-✔ CLI-based execution  
-✔ Provider abstraction layer  
-✔ Fault-tolerant architecture  
-✔ Real-world quota handling (Gemini limit tested)  
+✔ **Multi-LLM Support:** Gemini, Groq, Ollama, GitHub Copilot, and OpenAI-ready.  
+✔ **Automatic Fallback:** Intelligent retry and failover across providers in priority order.  
+✔ **Health Check System:** Comprehensive diagnostic tool to verify provider status and credentials.  
+✔ **Dynamic Model Detection:** Automatically discovers installed Ollama models.  
+✔ **Centralized Credentials:** Secure and unified management of API keys and tokens via `.env`.  
+✔ **Diagnostic Logging:** Persistent logs for tracking router decisions and provider performance.  
 
 ---
 
 ## 📦 Supported Providers
 
-| Provider | Status | Role |
-|----------|--------|------|
-| Gemini   | Primary (rate-limited) | High-quality reasoning |
-| Groq     | Active fallback | Fast inference |
-| Ollama   | Local fallback | Offline execution |
-| OpenAI   | Optional | Placeholder / future use |
-
----
-
-## 🚀 How It Works
-
-1. User sends a prompt via CLI
-2. Router selects preferred model (or default chain)
-3. If failure occurs → automatically fallback
-4. First successful model response is returned
+| Provider | Status | Role | Priority |
+|----------|--------|------|----------|
+| Gemini   | Active | Primary (High-quality reasoning) | 1 |
+| Groq     | Active | Fast inference | 2 |
+| Ollama   | Active | Local execution (Offline) | 3 |
+| Copilot  | Active | Development & Coding | 4 |
+| OpenAI   | Ready  | Optional / Future use | 5 |
 
 ---
 
 ## 💻 Installation
 
 ```bash
-git clone https://github.com/<your-username>/ai-router.git
+git clone https://github.com/vikas0486/ai-router.git
 cd ai-router
 npm install
-````
+```
+
+### Configuration
+
+Create a `.env` file in the root directory:
+
+```env
+GROQ_API_KEY=your_groq_key
+GEMINI_API_KEY=your_gemini_key
+GITHUB_TOKEN=your_github_token
+OLLAMA_MODEL=deepseek-r1:8b # Optional: defaults to first available
+```
 
 ---
 
 ## ▶️ Usage
 
-### Run a prompt
+### 1. Run a health check
+
+Verify all providers are correctly configured and reachable:
+
+```bash
+node cli.js --health
+```
+
+### 2. Run a prompt
 
 ```bash
 node cli.js "write a python factorial function"
 ```
 
-### Expected output
+### 3. Force a specific model
 
-```
-[Router] Trying gemini
-[Router] gemini failed → fallback
-[Router] Trying groq
-
-=== RESPONSE ===
-<AI generated output>
+```bash
+node cli.js --model ollama "What is the capital of France?"
 ```
 
----
+### 4. 🎯 Interactive Chat Mode
 
-## 🔁 Routing Logic (Core Concept)
+Launch an interactive chat session with seamless multi-LLM routing:
 
-```js
-for (const provider of providers) {
-  try {
-    return await provider.fn(prompt);
-  } catch (err) {
-    console.log(`[Router] ${provider.name} failed → fallback`);
-  }
-}
+```bash
+node chat.js
 ```
 
----
+**Features:**
+- 💬 **Stateful Conversations** - Chat history is automatically saved
+- 🔄 **Seamless Routing** - Switch between providers without friction
+- 🎮 **Interactive Commands** - Use `/model`, `/history`, `/clear`, `/exit`
+- 🎨 **Beautiful UI** - Color-coded output with loading spinners
+- 💾 **Persistent Memory** - Last 50 messages survive restarts
 
-## 🧪 Real-World Scenario Tested
+**Example Session:**
+```
+[auto] You: What is machine learning?
+Thinking...
+✔ Response received
 
-* Gemini quota exhausted ❌
-* Automatic fallback triggered
-* Groq responded successfully ✅
-* System continued without failure
+┌─ AI Response
+│
+│ Machine learning is a subset of artificial intelligence...
+└
 
-This proves **resilient AI architecture works in practice**.
+[auto] You: /model groq
+✓ Model set to: groq
+
+[groq] You: Explain neural networks
+Thinking...
+✔ Response received
+
+┌─ AI Response
+│
+│ Neural networks are computational systems inspired by...
+└
+
+[groq] You: /history
+[groq] You: /exit
+Goodbye! 👋
+```
+
+For detailed documentation, see [CHAT_GUIDE.md](./CHAT_GUIDE.md) and [CHAT_ARCHITECTURE.md](./CHAT_ARCHITECTURE.md)
 
 ---
 
@@ -154,48 +161,27 @@ This proves **resilient AI architecture works in practice**.
 
 ```
 ai-router/
-│
-├── cli.js
-├── router/
-│   ├── engine.js
-│   ├── providers.config.js
-│
-├── providers/
+├── cli.js                  # CLI Entry point (single prompt)
+├── chat.js                 # Interactive Chat CLI ✨ NEW
+├── CHAT_GUIDE.md           # Chat user guide
+├── CHAT_ARCHITECTURE.md    # Chat design documentation
+├── config/
+│   ├── credentials.js      # Credential loader & validator
+│   └── models.json         # Model configurations
+├── logs/                   # Diagnostic logs
+├── providers/              # Provider implementations
 │   ├── gemini.js
 │   ├── groq.js
 │   ├── ollama.js
-│   ├── openai.js
-│
-├── tests/
+│   ├── copilot.js
+│   └── openai.js
+├── router/                 # Core routing logic
+│   ├── engine.js           # Fallback & routing engine
+│   ├── logger.js           # Diagnostic logger
+│   ├── provider.registry.js
+│   └── providers.config.js
 └── README.md
 ```
-
----
-
-## 🔮 Future Roadmap (v2 → v3)
-
-### v2 — Smart Routing
-
-* Cost-aware model selection
-* Prompt complexity classification
-* Latency-based routing
-* Response normalization
-
-### v3 — Enterprise AI Gateway
-
-* API gateway layer
-* Redis caching
-* Usage tracking
-* Multi-tenant support
-* Kubernetes deployment
-
----
-
-## 🧠 Key Insight
-
-> “Modern AI systems should not depend on a single model — they should depend on a routing layer.”
-
-This project is a step toward building **AI infrastructure, not just AI apps**.
 
 ---
 
@@ -207,10 +193,4 @@ MIT License — feel free to use and extend.
 
 ## ⭐ Author
 
-Built as part of an AI Engineering learning journey focused on:
-
-* Multi-LLM systems
-* AI infrastructure design
-* Production-grade routing patterns
-
-````
+Built as part of an AI Engineering learning journey focused on building **AI infrastructure, not just AI apps**.

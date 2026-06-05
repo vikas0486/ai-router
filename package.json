@@ -3,10 +3,39 @@
   "version": "1.0.0",
   "type": "module",
   "bin": {
-    "ai-router": "cli.js"
+    "ai-router": "cli.js",
+    "ai-chat": "chat.js",
+    "forge": "cli.js"
   },
   "dependencies": {
-    "axios": "^1.6.0",
-    "dotenv": "^16.0.0"
+    "axios": "^1.17.0",
+    "chalk": "^5.6.2",
+    "commander": "^15.0.0",
+    "dotenv": "^16.6.1",
+    "groq-sdk": "^1.2.1",
+    "ora": "^9.4.0",
+    "readline-sync": "^1.4.10"
+  },
+  "description": "A production-style **Multi-LLM routing engine** built in Node.js that dynamically selects and fails over between multiple AI providers like Gemini, Groq, Ollama, and OpenAI.",
+  "main": "cli.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vikas0486/ai-router.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vikas0486/ai-router/issues"
+  },
+  "homepage": "https://github.com/vikas0486/ai-router#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
