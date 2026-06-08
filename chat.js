@@ -1,26 +1,34 @@
 #!/usr/bin/env node
 
-import "dotenv/config";
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
+import path from "path";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.join(__dirname, ".env") });
+
 import readline from "readline";
 import fs from "fs";
-import path from "path";
 import chalk from "chalk";
 import ora from "ora";
 import { routeRequest } from "./router/engine.js";
 import { validateCredentials } from "./config/credentials.js";
 import { providers } from "./router/providers.config.js";
 
-const CHAT_HISTORY_FILE = path.join(".", "chat-history.json");
-const MAX_HISTORY_LENGTH = 50;
+const CHAT_HISTORY_FILE = path.join(__dirname, "chat-history.json");
+const MAX_HISTORY_LENGTH = 100;
 const SUPPORTED_IMAGE_FORMATS = [".jpg", ".jpeg", ".png", ".gif", ".webp"];
 
-class InteractiveChatApp {
+class ForgeChatApp {
   constructor() {
     this.history = [];
     this.rl = null;
     this.preferredModel = null;
     this.isRunning = true;
     this.attachedImage = null;
+    this.commandHistory = [];
+    this.abortController = null;
+    this.currentSpinner = null;
     this.loadHistory();
   }
 
@@ -28,130 +36,84 @@ class InteractiveChatApp {
     try {
       if (fs.existsSync(CHAT_HISTORY_FILE)) {
         const data = fs.readFileSync(CHAT_HISTORY_FILE, "utf-8");
-        this.history = JSON.parse(data);
+        const parsed = JSON.parse(data);
+        this.history = parsed.messages || [];
+        this.commandHistory = parsed.commandHistory || [];
       }
     } catch (err) {
-      // Start with empty history if file is corrupted
       this.history = [];
+      this.commandHistory = [];
     }
   }
 
   saveHistory() {
     try {
-      const recentHistory = this.history.slice(-MAX_HISTORY_LENGTH);
-      fs.writeFileSync(
-        CHAT_HISTORY_FILE,
-        JSON.stringify(recentHistory, null, 2)
-      );
+      const data = {
+        messages: this.history.slice(-MAX_HISTORY_LENGTH),
+        commandHistory: this.commandHistory.slice(-MAX_HISTORY_LENGTH)
+      };
+      fs.writeFileSync(CHAT_HISTORY_FILE, JSON.stringify(data, null, 2));
     } catch (err) {
-      console.error(chalk.red("⚠️  Failed to save history:", err.message));
+      // Silently fail history save
     }
   }
 
   async init() {
     validateCredentials();
+    this.setupReadline();
+    this.displayWelcome();
+  }
 
+  setupReadline() {
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
-      terminal: false,
+      terminal: true,
+      historySize: MAX_HISTORY_LENGTH,
+      prompt: ""
     });
 
-    this.displayWelcome();
+    this.rl.on("SIGINT", () => {
+      if (this.abortController) {
+        this.abortController.abort();
+        this.abortController = null;
+        if (this.currentSpinner) {
+          this.currentSpinner.fail(chalk.yellow("Forging interrupted by user."));
+          this.currentSpinner = null;
+        }
+        console.log();
+        this.prompt();
+      } else {
+        console.log(chalk.cyan("\nGoodbye! 👋"));
+        process.exit(0);
+      }
+    });
   }
 
   displayWelcome() {
     console.clear();
-    console.log(
-      chalk.cyan.bold(
-        "╔════════════════════════════════════════════════════════╗"
-      )
-    );
-    console.log(
-      chalk.cyan.bold(
-        "║          🤖  AI Router - Interactive Chat CLI  🤖       ║"
-      )
-    );
-    console.log(
-      chalk.cyan.bold(
-        "╚════════════════════════════════════════════════════════╝"
-      )
-    );
-    console.log();
-    console.log(
-      chalk.gray(
-        "Type your message and press Enter. Commands available:"
-      )
-    );
-    console.log(chalk.yellow("  /help") + chalk.gray(" - Show available commands"));
-    console.log(chalk.yellow("  /clear") + chalk.gray(" - Clear chat history"));
-    console.log(
-      chalk.yellow("  /history") + chalk.gray(" - Show previous messages")
-    );
-    console.log(chalk.yellow("  /model list") + chalk.gray(" - Show available models"));
-    console.log(chalk.yellow("  /model <name>") + chalk.gray(" - Switch to specific model"));
-    console.log(chalk.yellow("  /image") + chalk.gray(" <path> - Attach an image file"));
-    console.log(chalk.yellow("  /exit") + chalk.gray(" - Exit the chat"));
-    console.log();
-  }
+    const width = process.stdout.columns || 80;
+    const border = "═".repeat(Math.min(width - 2, 70));
+    
+    console.log(chalk.cyan.bold(`╔${border}╗`));
+    console.log(chalk.cyan.bold(`║${" ".repeat(Math.floor((border.length - 26) / 2))}⚒️  FORGE INTERACTIVE CODE  ⚒️${" ".repeat(Math.ceil((border.length - 26) / 2))}║`));
+    console.log(chalk.cyan.bold(`╚${border}╝`));
+    
+    console.log(chalk.gray("\nWelcome to the Forge. High-performance multi-LLM routing.\n"));
+    
+    const commands = [
+      ["/help", "Show available commands"],
+      ["/model list", "Show available models"],
+      ["/model <name>", "Switch to specific model"],
+      ["/image <path>", "Attach an image file"],
+      ["/clear", "Clear chat history"],
+      ["/exit", "Exit the chat"]
+    ];
 
-  displayHelp() {
+    commands.forEach(([cmd, desc]) => {
+      console.log(`${chalk.yellow(cmd.padEnd(15))} ${chalk.gray(desc)}`);
+    });
     console.log();
-    console.log(
-      chalk.cyan.bold(
-        "╔════════════════════════════════════════════════════════╗"
-      )
-    );
-    console.log(
-      chalk.cyan.bold(
-        "║                 📚  Available Commands                 ║"
-      )
-    );
-    console.log(
-      chalk.cyan.bold(
-        "╚════════════════════════════════════════════════════════╝"
-      )
-    );
-    console.log();
-    console.log(chalk.yellow("  /help") + chalk.gray(" - Show this help message"));
-    console.log(chalk.yellow("  /clear") + chalk.gray(" - Clear all chat history"));
-    console.log(chalk.yellow("  /history") + chalk.gray(" - Display recent messages"));
-    console.log(
-      chalk.yellow("  /model list") + chalk.gray(" - Show available models in priority order")
-    );
-    console.log(
-      chalk.yellow("  /model <name>") + chalk.gray(" - Switch LLM provider (e.g., groq, openai)")
-    );
-    console.log(
-      chalk.yellow("  /model auto") + chalk.gray(" - Enable automatic model routing")
-    );
-    console.log(
-      chalk.yellow("  /image <path>") + chalk.gray(" - Attach an image for analysis")
-    );
-    console.log(chalk.yellow("  /exit") + chalk.gray(" - Exit the chat application"));
-    console.log();
-    console.log(chalk.gray("Examples:"));
-    console.log(chalk.gray("  > /model groq"));
-    console.log(chalk.gray("  > /model auto"));
-    console.log(chalk.gray("  > /image ./screenshot.png"));
-    console.log();
-  }
-
-  async processInput(userInput) {
-    const trimmedInput = userInput.trim();
-
-    if (!trimmedInput) {
-      return;
-    }
-
-    // Handle commands
-    if (trimmedInput.startsWith("/")) {
-      await this.handleCommand(trimmedInput);
-      return;
-    }
-
-    // Regular message - send to LLM
-    await this.sendMessage(userInput);
   }
 
   async handleCommand(command) {
@@ -160,236 +122,166 @@ class InteractiveChatApp {
 
     switch (cmd) {
       case "/help":
-        this.displayHelp();
+        this.displayWelcome();
         break;
-
       case "/clear":
         this.history = [];
+        this.commandHistory = [];
         this.saveHistory();
-        console.log(chalk.green("✓ Chat history cleared"));
+        console.log(chalk.green("✓ Forge memory cleared."));
         break;
-
-      case "/history":
-        this.displayHistory();
-        break;
-
-      case "/model":
-        if (parts.length > 1) {
-          const modelName = parts[1].toLowerCase();
-          
-          // Handle /model list
-          if (modelName === "list") {
-            console.log();
-            console.log(chalk.cyan.bold("Available Models (in priority order):"));
-            console.log();
-            const sortedProviders = [...providers].sort((a, b) => a.priority - b.priority);
-            sortedProviders.forEach((provider, index) => {
-              const status = provider.enabled ? chalk.green("✓") : chalk.red("✗");
-              console.log(`  ${status} ${chalk.yellow(provider.name.padEnd(12))} - Priority: ${provider.priority}`);
-            });
-            console.log();
-            break;
-          }
-          
-          // Prevent "all" from being used as a model name
-          if (modelName === "all") {
-            console.log(
-              chalk.red("✗ Cannot switch to 'all'. Use '/model list' to see available models or '/model auto' for automatic routing.")
-            );
-            break;
-          }
-          
-          if (modelName === "auto") {
-            this.preferredModel = null;
-            console.log(
-              chalk.green(`✓ Model set to: ${chalk.bold("auto-routing")}`)
-            );
-          } else {
-            this.preferredModel = modelName;
-            console.log(
-              chalk.green(`✓ Model set to: ${chalk.bold(this.preferredModel)}`)
-            );
-          }
-        } else {
-          console.log(
-            chalk.yellow(
-              `Current model: ${this.preferredModel || "auto-routing"}`
-            )
-          );
-        }
-        break;
-
-      case "/image":
-        if (parts.length > 1) {
-          const imagePath = parts.slice(1).join(" ");
-          await this.attachImage(imagePath);
-        } else {
-          console.log(chalk.red("✗ Please provide an image path. Usage: /image <path>"));
-        }
-        break;
-
       case "/exit":
         this.isRunning = false;
-        console.log(chalk.cyan("Goodbye! 👋"));
+        console.log(chalk.cyan("Exiting Forge. Goodbye! 👋"));
+        process.exit(0);
         break;
-
+      case "/model":
+        this.handleModelCommand(parts);
+        break;
+      case "/image":
+        if (parts.length > 1) {
+          await this.attachImage(parts.slice(1).join(" "));
+        } else {
+          console.log(chalk.red("✗ Provide an image path."));
+        }
+        break;
       default:
-        console.log(
-          chalk.red(`Unknown command: ${cmd}. Try /help or /exit.`)
-        );
+        console.log(chalk.red(`✗ Unknown command: ${cmd}`));
+    }
+  }
+
+  handleModelCommand(parts) {
+    if (parts.length > 1) {
+      const modelName = parts[1].toLowerCase();
+      if (modelName === "list") {
+        console.log(chalk.cyan("\nAvailable Forge Hammers:"));
+        providers.sort((a, b) => a.priority - b.priority).forEach(p => {
+          console.log(`  ${p.enabled ? chalk.green("✓") : chalk.red("✗")} ${chalk.yellow(p.name.padEnd(10))} (Priority: ${p.priority})`);
+        });
+        console.log();
+      } else if (modelName === "auto") {
+        this.preferredModel = null;
+        console.log(chalk.green("✓ Model set to auto-routing."));
+      } else {
+        this.preferredModel = modelName;
+        console.log(chalk.green(`✓ Model set to: ${chalk.bold(modelName)}`));
+      }
+    } else {
+      console.log(chalk.yellow(`Current model: ${this.preferredModel || "auto-routing"}`));
     }
   }
 
   async attachImage(imagePath) {
     try {
       const resolvedPath = path.resolve(imagePath);
-      
       if (!fs.existsSync(resolvedPath)) {
-        console.log(chalk.red(`✗ Image file not found: ${imagePath}`));
+        console.log(chalk.red(`✗ File not found: ${imagePath}`));
         return;
       }
-
       const ext = path.extname(resolvedPath).toLowerCase();
       if (!SUPPORTED_IMAGE_FORMATS.includes(ext)) {
-        console.log(
-          chalk.red(
-            `✗ Unsupported image format. Supported: ${SUPPORTED_IMAGE_FORMATS.join(", ")}`
-          )
-        );
+        console.log(chalk.red(`✗ Unsupported format: ${ext}`));
         return;
       }
-
-      const imageBuffer = fs.readFileSync(resolvedPath);
-      const base64Data = imageBuffer.toString("base64");
-      const mimeType = this.getMimeType(ext);
-
-      this.attachedImage = {
-        data: base64Data,
-        mimeType: mimeType,
-        path: imagePath,
-      };
-
-      console.log(
-        chalk.green(
-          `✓ Image attached: ${path.basename(imagePath)} (${mimeType})`
-        )
-      );
+      const base64 = fs.readFileSync(resolvedPath).toString("base64");
+      this.attachedImage = { data: base64, mimeType: `image/${ext.slice(1)}`, path: imagePath };
+      console.log(chalk.green(`✓ Image attached: ${path.basename(imagePath)}`));
     } catch (err) {
-      console.log(chalk.red(`✗ Error attaching image: ${err.message}`));
+      console.log(chalk.red(`✗ Error: ${err.message}`));
     }
-  }
-
-  getMimeType(extension) {
-    const mimeTypes = {
-      ".jpg": "image/jpeg",
-      ".jpeg": "image/jpeg",
-      ".png": "image/png",
-      ".gif": "image/gif",
-      ".webp": "image/webp",
-    };
-    return mimeTypes[extension] || "image/jpeg";
-  }
-
-  displayHistory() {
-    if (this.history.length === 0) {
-      console.log(chalk.gray("No chat history yet."));
-      return;
-    }
-
-    console.log(chalk.cyan("\n📜 Chat History:"));
-    console.log(chalk.gray("─".repeat(60)));
-
-    this.history.forEach((entry, index) => {
-      console.log(
-        chalk.blue(`[${index + 1}] You: `) + chalk.gray(entry.user.substring(0, 80))
-      );
-      if (entry.ai.length > 80) {
-        console.log(
-          chalk.green("AI: ") +
-            chalk.gray(entry.ai.substring(0, 80) + "...")
-        );
-      } else {
-        console.log(chalk.green("AI: ") + chalk.gray(entry.ai));
-      }
-      console.log(chalk.gray("─".repeat(60)));
-    });
-    console.log();
   }
 
   async sendMessage(userMessage) {
-    const spinner = ora({
-      text: chalk.cyan("Thinking..."),
-      color: "cyan",
+    const hammerFrames = ["  ⚒️ ", " ⚒️  ", "⚒️   ", " ⚒️  "];
+    this.abortController = new AbortController();
+    
+    this.currentSpinner = ora({
+      text: chalk.cyan("Forging response..."),
+      spinner: {
+        interval: 200,
+        frames: hammerFrames
+      }
     }).start();
 
     try {
-      const response = await routeRequest(
-        userMessage,
-        this.preferredModel,
-        this.attachedImage
-      );
+      const response = await routeRequest(userMessage, this.preferredModel, this.attachedImage, this.abortController.signal);
+      this.currentSpinner.succeed(chalk.green("Response forged"));
+      this.currentSpinner = null;
+      this.abortController = null;
 
-      spinner.succeed(chalk.green("Response received"));
-
-      // Display response
       console.log();
-      console.log(chalk.green("┌─ AI Response"));
-      console.log(chalk.green("│"));
-      const lines = response.split("\n");
-      lines.forEach((line) => {
-        console.log(chalk.green("│ ") + chalk.white(line));
+      const width = process.stdout.columns || 80;
+      const wrapWidth = Math.min(width - 6, 100);
+      
+      console.log(chalk.cyan("  ┌" + "─".repeat(wrapWidth + 2) + "┐"));
+      response.split("\n").forEach(line => {
+        let remaining = line;
+        if (remaining.trim() === "") {
+          console.log(chalk.cyan("  │ ") + " ".repeat(wrapWidth) + chalk.cyan(" │"));
+        }
+        while (remaining.length > 0) {
+          const chunk = remaining.substring(0, wrapWidth);
+          console.log(chalk.cyan("  │ ") + chalk.white(chunk.padEnd(wrapWidth)) + chalk.cyan(" │"));
+          remaining = remaining.substring(wrapWidth);
+        }
       });
-      console.log(chalk.green("└"));
+      console.log(chalk.cyan("  └" + "─".repeat(wrapWidth + 2) + "┘"));
       console.log();
 
-      // Save to history
-      this.history.push({
-        user: userMessage,
-        ai: response,
-        timestamp: new Date().toISOString(),
-        model: this.preferredModel || "auto",
-        hasImage: !!this.attachedImage,
-      });
+      this.history.push({ user: userMessage, ai: response, model: this.preferredModel || "auto" });
+      this.commandHistory.push(userMessage);
       this.saveHistory();
-
-      // Clear attached image after sending
-      if (this.attachedImage) {
-        this.attachedImage = null;
-      }
+      this.attachedImage = null;
     } catch (error) {
-      spinner.fail(chalk.red("Error getting response"));
-      console.error(
-        chalk.red(`\n✗ Error: ${error.message}\n`)
-      );
+      if (this.currentSpinner) {
+        this.currentSpinner.fail(chalk.red("Forging failed"));
+        this.currentSpinner = null;
+      }
+      this.abortController = null;
+      if (error.name === "AbortError" || error.message === "AbortError") {
+        return;
+      }
+      console.error(chalk.red(`\n✗ Error: ${error.message}\n`));
     }
   }
 
   prompt() {
-    if (!this.isRunning) {
-      this.rl.close();
-      process.exit(0);
-    }
+    const modelLabel = this.preferredModel ? chalk.yellow(`[${this.preferredModel}]`) : chalk.cyan("[auto]");
+    const imgLabel = this.attachedImage ? chalk.magenta(" 🖼️") : "";
+    
+    const width = process.stdout.columns || 80;
+    const boxWidth = Math.min(width - 4, 70);
+    const border = "─".repeat(boxWidth);
+    
+    console.log(chalk.gray("  ┌" + border + "┐"));
+    const promptPrefix = chalk.cyan("  │ ") + chalk.bold.blue("Forge") + " " + modelLabel + imgLabel + chalk.gray(" ❯ ");
+    
+    // We use setPrompt and prompt() to allow native history handling
+    this.rl.setPrompt(promptPrefix);
+    this.rl.prompt();
 
-    const modelIndicator = this.preferredModel
-      ? chalk.yellow(`[${this.preferredModel}]`)
-      : chalk.cyan("[auto]");
+    const lineHandler = async (input) => {
+      this.rl.removeListener("line", lineHandler);
+      const trimmed = input.trim();
+      
+      // Close the box visually after input
+      // This is tricky with readline, so we just print a closing border
+      console.log(chalk.gray("  └" + border + "┘"));
 
-    const imageIndicator = this.attachedImage
-      ? chalk.magenta(" 🖼️")
-      : "";
-
-    this.rl.question(
-      `${modelIndicator}${imageIndicator} ${chalk.blue("You")}: `,
-      async (input) => {
-        await this.processInput(input);
-        if (this.isRunning) {
-          this.prompt();
+      if (trimmed) {
+        if (trimmed.startsWith("/")) {
+          await this.handleCommand(trimmed);
         } else {
-          this.rl.close();
-          process.exit(0);
+          await this.sendMessage(trimmed);
         }
       }
-    );
+      
+      if (this.isRunning) {
+        this.prompt();
+      }
+    };
+
+    this.rl.on("line", lineHandler);
   }
 
   async start() {
@@ -398,9 +290,8 @@ class InteractiveChatApp {
   }
 }
 
-// Start the chat application
-const app = new InteractiveChatApp();
-app.start().catch((err) => {
-  console.error(chalk.red("Fatal Error:"), err.message);
+const app = new ForgeChatApp();
+app.start().catch(err => {
+  console.error(chalk.red("Fatal Forge Error:"), err.message);
   process.exit(1);
 });

@@ -1,23 +1,23 @@
-# AI Router Audit
+# Forge CLI Audit
 
-Analyze the repository.
+Analyze the Forge repository.
 
 ## Tasks
 
-1. Check Gemini provider
-2. Check Groq provider
-3. Check Ollama provider
-4. Check Copilot provider
+1. Check Forge Engine
+2. Check Provider Adapters
+3. Validate Interactive "Forge Code" Session
+4. Verify Global Execution Pathing
 
 ## Validation
 
-- Verify environment loading
-- Verify routing
-- Verify fallback logic
-- Verify response parsing
+- Verify environment loading (dotenv)
+- Verify routing & intelligent fallback
+- Verify response normalization
+- Verify animated forging feedback
 
 ## Deliverables
 
-- List bugs
-- Proposed fixes
-- Code patches
+- Efficiency report
+- UI/UX polish suggestions
+- Code quality patches

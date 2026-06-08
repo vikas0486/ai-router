@@ -1,27 +1,13 @@
-export const providers = [
-  {
-    name: "copilot",
-    enabled: true,
-    priority: 1
-  },
-  {
-    name: "gemini",
-    enabled: true,
-    priority: 2
-  },
-  {
-    name: "groq",
-    enabled: true,
-    priority: 3
-  },
-  {
-    name: "openai",
-    enabled: true,
-    priority: 4
-  },
-  {
-    name: "ollama",
-    enabled: true,
-    priority: 5
-  }
-];
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const configPath = path.join(__dirname, "..", "config", "providers.json");
+const providersList = JSON.parse(fs.readFileSync(configPath, "utf8"));
+
+export const providers = providersList.map((name, index) => ({
+  name,
+  enabled: true,
+  priority: index + 1
+}));

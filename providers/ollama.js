@@ -7,32 +7,23 @@ async function getAvailableModels() {
     const data = await res.json();
     return data.models ? data.models.map(m => m.name) : [];
   } catch (err) {
-    console.error("[Ollama] Failed to fetch models:", err.message);
     return [];
   }
 }
 
-export async function ollama(prompt, image = null) {
-  const availableModels = await getAvailableModels();
-  
-  // Priority: 1. ENV, 2. First available model, 3. fallback to llama3
-  let model = process.env.OLLAMA_MODEL;
-  
-  if (!model && availableModels.length > 0) {
-    model = availableModels[0];
-  }
-  
-  if (!model) {
-    model = "llama3"; // Last resort fallback
-  }
-
-  console.log(`[Ollama] Using model: ${model}`);
-  
-  if (image) {
-    console.log("⚠️  Ollama doesn't support images yet. Processing text only.");
-  }
-
+export async function ollama(prompt, image = null, signal = null) {
   try {
+    const availableModels = await getAvailableModels();
+    let model = process.env.OLLAMA_MODEL;
+    
+    if (!model && availableModels.length > 0) {
+      model = availableModels[0];
+    }
+    
+    if (!model) {
+      model = "llama3";
+    }
+
     const res = await fetch("http://localhost:11434/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -40,7 +31,8 @@ export async function ollama(prompt, image = null) {
         model: model,
         prompt,
         stream: false
-      })
+      }),
+      signal
     });
 
     if (!res.ok) {
@@ -51,14 +43,19 @@ export async function ollama(prompt, image = null) {
     const data = await res.json();
     
     if (!data.response) {
-      console.error("[Ollama] Unexpected response structure:", data);
-      return "Error: Empty response from Ollama";
+      throw new Error("Empty response from Ollama API");
     }
 
-    return data.response;
+    return {
+      provider: "ollama",
+      model: model,
+      content: data.response
+    };
   } catch (err) {
-    console.error("[Ollama] Request failed:", err.message);
-    throw err;
+    if (err.name === "AbortError" || err.message === "AbortError") {
+      throw err;
+    }
+    throw new Error(`Ollama failed: ${err.message}`);
   }
 }
 

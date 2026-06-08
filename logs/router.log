@@ -287,3 +287,144 @@ An unexpected critical error occurred:[object Object]
 [2026-06-05T22:07:47.955Z] Forced model: ollama
 [2026-06-05T22:12:56.543Z] Forced model: openai
 [2026-06-05T22:15:32.149Z] Forced model: ollama
+[2026-06-05T22:35:31.121Z] Trying copilot
+[2026-06-05T22:35:44.351Z] copilot Success
+[2026-06-05T22:36:14.724Z] Forced model: groq
+[2026-06-05T22:36:47.904Z] Forced model: groq
+[2026-06-05T22:37:31.499Z] Forced model: groq
+[2026-06-05T22:38:45.055Z] Forced model: groq
+[2026-06-06T07:12:28.046Z] Forced model: groq
+[2026-06-06T07:12:51.857Z] Forced model: groq
+[2026-06-06T07:18:50.642Z] Forced model: groq
+[2026-06-06T07:19:28.110Z] Forced model: groq
+[2026-06-06T07:20:14.375Z] Forced model: groq
+[2026-06-06T07:20:56.077Z] Forced model: groq
+[2026-06-06T07:32:06.283Z] Forced model: groq
+[2026-06-06T07:32:51.067Z] Forced model: groq
+[2026-06-06T07:39:03.276Z] Forced model: groq
+[2026-06-06T11:54:14.671Z] Trying copilot
+[2026-06-06T11:54:27.432Z] copilot Success
+[2026-06-06T12:00:48.721Z] Trying copilot
+[2026-06-06T12:01:00.996Z] copilot Success
+[2026-06-06T12:04:22.072Z] Trying gemini
+[2026-06-06T12:04:34.008Z] gemini failed → fallback
+[2026-06-06T12:04:34.009Z] Trying codex
+[2026-06-06T12:04:36.583Z] codex failed → fallback
+[2026-06-06T12:04:36.584Z] Trying copilot
+[2026-06-06T12:04:49.135Z] copilot failed → fallback
+[2026-06-06T12:04:49.135Z] Trying groq
+[2026-06-06T12:04:50.926Z] groq Success
+[2026-06-08T18:35:55.035Z] Trying gemini
+[2026-06-08T18:36:12.010Z] gemini Success
+[2026-06-08T19:59:56.805Z] Trying gemini
+[2026-06-08T19:59:56.808Z] gemini Success
+[2026-06-08T20:00:28.753Z] Trying copilot
+[2026-06-08T20:00:28.755Z] copilot failed: Provider returned HTTP 402 → fallback
+[2026-06-08T20:00:28.755Z] Trying gemini
+[2026-06-08T20:00:28.756Z] gemini Success
+[2026-06-08T20:01:32.001Z] Forced model: gemini
+[2026-06-08T20:01:45.851Z] Forced model: groq
+[2026-06-08T20:01:46.119Z] Forced model: claude
+[2026-06-08T20:01:46.120Z] Forced model: codex
+[2026-06-08T20:01:48.217Z] Forced model: copilot
+[2026-06-08T20:02:01.264Z] Forced model: openai
+[2026-06-08T20:02:01.265Z] Forced model: ollama
+[2026-06-08T20:03:13.805Z] Trying gemini
+[2026-06-08T20:03:30.232Z] gemini Success
+[2026-06-08T20:09:03.621Z] Forced model: gemini
+[2026-06-08T20:09:26.747Z] Forced model: groq
+[2026-06-08T20:09:35.608Z] Forced model: claude
+[2026-06-08T20:09:48.063Z] Forced model: codex
+[2026-06-08T20:09:56.294Z] Forced model: copilot
+[2026-06-08T20:11:04.522Z] Forced model: openai
+[2026-06-08T20:11:13.258Z] Forced model: ollama
+[2026-06-08T20:12:16.195Z] Trying copilot
+[2026-06-08T20:12:16.198Z] copilot failed: Provider returned HTTP 402 → fallback
+[2026-06-08T20:12:16.198Z] Trying gemini
+[2026-06-08T20:12:16.199Z] gemini Success
+[2026-06-08T20:12:42.493Z] Forced model: gemini
+[2026-06-08T20:12:53.400Z] Forced model: groq
+[2026-06-08T20:12:54.347Z] Forced model: claude
+[2026-06-08T20:12:54.347Z] Forced model: codex
+[2026-06-08T20:12:55.452Z] Forced model: copilot
+[2026-06-08T20:13:09.173Z] Forced model: openai
+[2026-06-08T20:13:09.174Z] Forced model: ollama
+[2026-06-08T20:17:08.397Z] Forced model: gemini
+[2026-06-08T20:17:20.800Z] Forced model: codex
+[2026-06-08T20:17:21.717Z] Forced model: copilot
+[2026-06-08T20:17:35.032Z] Forced model: groq
+[2026-06-08T20:17:35.424Z] Forced model: openai
+[2026-06-08T20:17:35.424Z] Forced model: ollama
+[2026-06-08T20:40:47.000Z] Trying gemini
+[2026-06-08T20:40:57.900Z] gemini failed: Gemini failed: Command failed: gemini -p hello world
+Error when talking to Gemini API Full report available at: /var/folders/54/8z89prd973sb975_x33y35t80000gn/T/gemini-client-error-Turn.run-sendMessageStream-2026-06-08T20-40-57-853Z.json TerminalQuotaError: You have exhausted your capacity on this model. Your quota will reset after 21h55m9s.
+    at classifyGoogleError (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:304211:18)
+    at retryWithBackoff (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:304871:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async GeminiChat.makeApiCallAndProcessStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:328260:28)
+    at async GeminiChat.streamWithRetries (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:328078:29)
+    at async Turn.run (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:328824:24)
+    at async GeminiClient.processTurn (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:342314:22)
+    at async GeminiClient.sendMessageStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:342411:14)
+    at async file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-75GSY6S7.js:10882:26
+    at async main (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-75GSY6S7.js:16290:5) {
+  cause: {
+    code: 429,
+    message: 'You have exhausted your capacity on this model. Your quota will reset after 21h55m9s.',
+    details: [ [Object], [Object] ]
+  },
+  retryDelayMs: 78909241.89672,
+  reason: 'QUOTA_EXHAUSTED'
+}
+An unexpected critical error occurred:[object Object]
+ → fallback
+[2026-06-08T20:40:57.901Z] Trying codex
+[2026-06-08T20:41:00.730Z] codex failed: Codex failed: Codex API error (429): {
+  "error": {
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.",
+    "type": "insufficient_quota",
+    "param": null,
+    "code": "insufficient_quota"
+  }
+} → fallback
+[2026-06-08T20:41:00.731Z] Trying copilot
+[2026-06-08T20:41:12.316Z] copilot failed: Copilot CLI failed: Empty response from Copilot → fallback
+[2026-06-08T20:41:12.316Z] Trying groq
+[2026-06-08T20:41:12.516Z] groq Success
+[2026-06-08T20:41:52.168Z] Trying gemini
+[2026-06-08T20:42:03.410Z] gemini failed: Gemini failed: Command failed: gemini -p you are a super hero.../Users/vikash/Documents/Projects/ai-router
+Error when talking to Gemini API Full report available at: /var/folders/54/8z89prd973sb975_x33y35t80000gn/T/gemini-client-error-Turn.run-sendMessageStream-2026-06-08T20-42-03-370Z.json TerminalQuotaError: You have exhausted your capacity on this model. Your quota will reset after 21h54m3s.
+    at classifyGoogleError (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:304211:18)
+    at retryWithBackoff (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:304871:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async GeminiChat.makeApiCallAndProcessStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:328260:28)
+    at async GeminiChat.streamWithRetries (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:328078:29)
+    at async Turn.run (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:328824:24)
+    at async GeminiClient.processTurn (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:342314:22)
+    at async GeminiClient.sendMessageStream (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/chunk-LSXUKR6W.js:342411:14)
+    at async file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-75GSY6S7.js:10882:26
+    at async main (file:///usr/local/lib/node_modules/@google/gemini-cli/bundle/gemini-75GSY6S7.js:16290:5) {
+  cause: {
+    code: 429,
+    message: 'You have exhausted your capacity on this model. Your quota will reset after 21h54m3s.',
+    details: [ [Object], [Object] ]
+  },
+  retryDelayMs: 78843723.721031,
+  reason: 'QUOTA_EXHAUSTED'
+}
+An unexpected critical error occurred:[object Object]
+ → fallback
+[2026-06-08T20:42:03.410Z] Trying codex
+[2026-06-08T20:42:04.528Z] codex failed: Codex failed: Codex API error (429): {
+  "error": {
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.",
+    "type": "insufficient_quota",
+    "param": null,
+    "code": "insufficient_quota"
+  }
+} → fallback
+[2026-06-08T20:42:04.529Z] Trying copilot
+[2026-06-08T20:42:16.084Z] copilot failed: Copilot CLI failed: Empty response from Copilot → fallback
+[2026-06-08T20:42:16.084Z] Trying groq
+[2026-06-08T20:42:16.922Z] groq Success
+[2026-06-08T20:42:54.567Z] Forced model: groq

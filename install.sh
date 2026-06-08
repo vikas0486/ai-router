@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# AI Router - Forge CLI Installer
+# Forge CLI Installer
 # This script installs the 'forge' command globally
 
 set -e
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "🔨 Installing Forge CLI..."
-echo "Project root: $PROJECT_ROOT"
+echo "⚒️  Installing Forge CLI..."
+echo "Project path: $PROJECT_ROOT"
 
 # Install dependencies if not already installed
 if [ ! -d "$PROJECT_ROOT/node_modules" ]; then
@@ -17,19 +17,19 @@ if [ ! -d "$PROJECT_ROOT/node_modules" ]; then
     npm install
 fi
 
-# Install globally using npm
-echo "🌍 Installing forge command globally..."
+# Link globally using npm
+echo "🌍 Linking forge command globally..."
 cd "$PROJECT_ROOT"
-npm install -g .
+npm link
 
 echo ""
-echo "✅ Installation complete!"
+echo "✅ Forge has been successfully installed!"
 echo ""
-echo "You can now use the following commands:"
-echo "  forge <prompt>              - Run AI router with prompt"
-echo "  forge --model groq <prompt> - Use specific model"
-echo "  forge --health              - Check provider health"
-echo "  ai-chat                     - Interactive chat mode"
-echo "  ai-router <prompt>          - Direct alias"
+echo "You can now use the following commands from anywhere:"
+echo "  forge [prompt]    - Send a quick query to the best available LLM"
+echo "  forge code        - Launch the interactive professional chat (Forge Code)"
+echo "  forge health      - Check the status of your AI hammers"
+echo "  forge list        - View all configured providers"
 echo ""
-echo "Example: forge 'What is Node.js?'"
+echo "Example: forge 'Why is Rust so fast?'"
+echo "Example: forge code"

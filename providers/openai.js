@@ -1,5 +1,14 @@
 export async function openai(prompt, image = null) {
-  return `[OpenAI placeholder] ${prompt}${image ? " (with image)" : ""}`;
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error("Missing OPENAI_API_KEY");
+  }
+
+  const content = `[OpenAI placeholder] ${prompt}${image ? " (with image)" : ""}`;
+
+  return {
+    provider: "openai",
+    content
+  };
 }
 
 export function checkOpenaiHealth() {

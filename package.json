@@ -1,10 +1,10 @@
 {
-  "name": "ai-router",
-  "version": "1.0.1",
+  "name": "forge-cli",
+  "version": "1.1.0",
   "type": "module",
   "bin": {
-    "forge-cli": "cli.js",
-    "forge": "chat.js"
+    "forge": "cli.js",
+    "forge-code": "chat.js"
   },
   "dependencies": {
     "axios": "^1.17.0",
@@ -15,13 +15,13 @@
     "ora": "^9.4.0",
     "readline-sync": "^1.4.10"
   },
-  "description": "A production-style **Multi-LLM routing engine** built in Node.js that dynamically selects and fails over between multiple AI providers like Gemini, Groq, Ollama, and OpenAI.",
+  "description": "🛠️ Forge: A high-performance AI Router & Interactive CLI. Dynamically routes requests across multiple LLM providers with intelligent fallback and a professional chat interface.",
   "main": "cli.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/router.test.js"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,11 @@
 #!/usr/bin/env node
-import "dotenv/config";
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
+import path from "path";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.join(__dirname, ".env") });
+
 import fs from "fs";
 import { Command } from "commander";
 import chalk from "chalk";
@@ -8,20 +14,34 @@ import { routeRequest, performHealthCheck } from "./router/engine.js";
 import { validateCredentials } from "./config/credentials.js";
 import { providers } from "./router/providers.config.js";
 import { formatters, timing } from "./utils/formatter.js";
-
+import { execSync } from "child_process";
 const program = new Command();
 
 program
-  .name("forge-cli")
-  .description("🚀 AI Router - Multi-LLM intelligent routing system")
+  .name("forge")
+  .description("🛠️ Forge: High-performance AI Router & Interactive CLI")
   .version("1.1.0");
+
+// Interactive Chat command
+program
+  .command("code")
+  .description("Launch the interactive Forge chat session")
+  .action(() => {
+    const chatPath = path.join(__dirname, "chat.js");
+    try {
+      // Execute chat.js
+      import("./chat.js");
+    } catch (err) {
+      console.error(chalk.red(`✗ Failed to launch chat: ${err.message}`));
+    }
+  });
 
 // Main query command
 program
   .command("query [prompt]", { isDefault: true })
   .alias("q")
   .description("Send a prompt to the AI router")
-  .option("-m, --model <name>", "Force specific model (gemini, groq, ollama, copilot, openai)")
+  .option("-m, --model <name>", "Force specific model (gemini, codex, copilot, groq, openai, ollama)")
   .option("-f, --file <path>", "Read prompt from file")
   .option("--json", "Output as JSON")
   .option("--time", "Show response time")
@@ -216,15 +236,15 @@ program
 program.on("--help", () => {
   console.log("\n" + chalk.bold("Examples:") + "\n");
   console.log(chalk.gray("  Query AI (auto-route):"));
-  console.log("    forge-cli 'What is machine learning?'\n");
-  console.log(chalk.gray("  Force specific provider with timing:"));
-  console.log("    forge-cli --model groq --time 'Explain neural networks'\n");
-  console.log(chalk.gray("  Check provider status:"));
-  console.log("    forge-cli health --strict\n");
-  console.log(chalk.gray("  Read from file:"));
-  console.log("    forge-cli --file prompt.md\n");
+  console.log("    forge 'What is machine learning?'\n");
+  console.log(chalk.gray("  Interactive Forge Code:"));
+  console.log("    forge code\n");
+  console.log(chalk.gray("  Force specific provider:"));
+  console.log("    forge --model groq 'Explain neural networks'\n");
+  console.log(chalk.gray("  Check provider health:"));
+  console.log("    forge health\n");
   console.log(chalk.gray("  View system info:"));
-  console.log("    forge-cli debug\n");
+  console.log("    forge debug\n");
 });
 
 program.parse(process.argv);
